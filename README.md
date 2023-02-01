@@ -6,8 +6,8 @@ Repositorio para el curso Análisis de Big Data
 
 | Nombre | email               | Usuario de GitHub |
 | ------ | ------------------- | ----------------- |
-|        | xxx@uniandes.edu.co | an_user_x         |
-|        |                     |                   |
+|Julian Oliveros        | je.oliverosf@uniandes.edu.co | Julianjuyo         |
+|Nicole Bahamón        | n.bahamon@uniandes.edu.co     | NicoleBahamonMartinez |
 |        |                     |                   |
 
 ## Ambiente de desarrollo
