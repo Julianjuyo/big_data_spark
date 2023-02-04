@@ -8,7 +8,7 @@ Repositorio para el curso Análisis de Big Data
 | ------ | ------------------- | ----------------- |
 |Julian Oliveros        | je.oliverosf@uniandes.edu.co | Julianjuyo         |
 |Nicole Bahamón        | n.bahamon@uniandes.edu.co     | NicoleBahamonMartinez |
-|        |                     |                   |
+|Juan Velasco   |j.velascop@uniandes.edu.co                     |velascop                  |
 
 ## Ambiente de desarrollo
 
