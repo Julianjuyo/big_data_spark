@@ -1,0 +1,18 @@
+version: "3.11"
+
+services:
+
+  streamlit:
+    build: streamlit/
+    ports:
+      - "8501:8501"
+    # networks:
+    #   - deploy_network
+    container_name: streamlit
+
+
+
+# networks:
+#   deploy_network:
+#     driver: bridge
+    
