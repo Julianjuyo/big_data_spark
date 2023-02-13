@@ -16,9 +16,22 @@ Repositorio para el curso Análisis de Big Data
 
 ## Proyectos
 
+Para correr los proyecto se sebe hacer los siguientes pasos
+
+```
+# Se debe ingresar al proyecto
+
+cd 202310-Grupo02/webserver/
+
+# Ejecutar el proyecto
+docker compose up
+
+```
+
 ### Tarea 1 - Título de la tarea
 
 Descripción, link a la documentación, instrucciones para correr la aplicación y ubicación en el repositorio. 
+
 
 ### Tarea 2 - Título de la tarea
 
@@ -35,4 +48,3 @@ Descripción, link a la documentación, instrucciones para correr la aplicación
 ### Taller 2- ...
 
 ...
-
