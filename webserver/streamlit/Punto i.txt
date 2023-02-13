@@ -1,0 +1,31 @@
+#------>se crea un archivo .sh bajo nano, en este se ingresa el siguiente script:
+
+filename=$1
+
+# Conteo de palabras
+wordcount=$(wc -w $filename | awk '{print $1}')
+echo "El número de palabras en el archivo $filename es $wordcount" >> /trabajo/descomprimido/archivo_salida.txt
+
+# Top de palabras frecuentes
+echo "Top de palabras frecuentes en el archivo $filename:" >> /trabajo/descomprimido/archivo_salida.txt
+(cat $filename | tr '[:upper:]' '[:lower:]' | tr -c '[:alpha:]' '[\n*]' | tr -s '[:blank:]' '[\n*]' | sort | uniq -c | sort -nr | head -2 ) >> /trabajo/descomprimido/archivo_salida.txt
+
+
+
+#----->en unix se ejecuta este comando:
+chmod +x count_words.sh
+
+
+
+#-----> se crea el archivo de salida para el log
+touch archivo_salida.txt
+
+
+#-----> se ingresa a crontab y se programa la actualizacion
+crontab -e
+39 04 * * * /trabajo/descomprimido/count_words.sh /trabajo/descomprimido/all-places-strings.lc.txt
+mm hh
+
+
+#----->  para validar si esta bien si revisa el log en el txt , o se ejecugta el estado de progmacion con el comando 
+crontab -l

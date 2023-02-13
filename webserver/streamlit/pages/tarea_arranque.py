@@ -14,6 +14,7 @@ import re
 import numpy
 
 
+
 st.title("Tarea de arranque")
 
 
@@ -77,8 +78,7 @@ retos = ['Reto 1: Contar palabras',
          'Reto 2: frecuencia de las palabras',
          'Reto 3: N palabras más frecuentes',
          'Reto 4: ¿En cuál archivo aparece más veces cierta palabra y cuál archivo tiene más palabras?',
-         'Reto 5: N palabras más frecuentes consecitivamente',
-         'Reto 6: Procesos lanzados a una hora'
+         'Reto 5: N palabras más frecuentes consecitivamente'
          ]
 
 # Seleccionar el reto
@@ -249,7 +249,7 @@ if reto == retos[4]:
         nube_palabras(result_without_numbers)
 
         write(selected_files,number,resp )
-        
+
         st.write("se creo el archivo en la ruta: reuters21578/archivo_salida.txt ")
 
 
@@ -266,13 +266,3 @@ if reto == retos[4]:
         write(selected_files,number,resp )
 
         st.write("se creo el archivo en la ruta: reuters21578/archivo_salida.txt ")
-
-
-
-
-
-
-
-if reto == retos[5]:
-
-    st.header(retos[5])
