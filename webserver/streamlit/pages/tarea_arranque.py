@@ -201,6 +201,7 @@ if reto == retos[3]:
                 path = data_folder+"/"+filename
 
                 countWords.append(int(check_output(["wc","-w",path]).split()[0]))
+
                 grepanswer = check_output(["grep","-o",st.session_state.word_selected, path])
                 countWord.append(int(check_output(["wc","-l"], input=grepanswer).split()[0]))
             filenameMostWord = st.session_state.fileselected_G[numpy.argmax(countWord)]
@@ -225,6 +226,51 @@ if reto == retos[3]:
 if reto == retos[4]:
 
     st.header(retos[4])
+
+
+    def write(filenames, num, resp):
+
+        with open("reuters21578/archivo_salida.txt", "w") as f:
+            f.write(f"Top {num} de palabras frecuentes en los archivos: {filenames}:\n Resultado: \n{resp}\n")
+
+
+    number = st.number_input(
+        "Inserte el número N de palabras frecuentes que quiere obtener", min_value=1, value=1)
+
+    selected_files = [data_folder+"/" + string for string in files_by_name()]
+
+    submit_file_name = st.button("Resultado input")
+    if submit_file_name:
+        st.write("Nombre archivo: ", selected_files)
+        resp = n_palabras_frecuentes(selected_files, number)
+        st.success("El número de palabras en el archivo es: " + resp)
+
+        result_without_numbers = re.sub(r'\d+', '', resp)
+        nube_palabras(result_without_numbers)
+
+        write(selected_files,number,resp )
+        
+        st.write("se creo el archivo en la ruta: reuters21578/archivo_salida.txt ")
+
+
+    selected_files = [data_folder+"/" + string for string in select_files()]
+
+    submit_selected_file = st.button("Resultado Selección")
+    if submit_selected_file:
+        st.write("Nombre archivo: ", selected_files)
+        resp = n_palabras_frecuentes(selected_files, number)
+        st.success("Se muestran <ocurrencia palabra> <palabra> : " + resp)
+
+        result_without_numbers = re.sub(r'\d+', '', resp)
+        nube_palabras(result_without_numbers)
+        write(selected_files,number,resp )
+
+        st.write("se creo el archivo en la ruta: reuters21578/archivo_salida.txt ")
+
+
+
+
+
 
 
 if reto == retos[5]:
