@@ -249,13 +249,23 @@ if reto == retos[5]:
 
     df_data = get_data_from_mongo(db.Agrupacion6)
     df_data.drop(['_id'], axis=1, inplace=True)
-    df_data.sort_values(by=['Avg Velocity'], inplace=True, ascending=False)
 
-    st.write(df_data)
+
+    # df_data_group_by = df_data.groupby("Group").agg(Avg_Velocity=('Avg Velocity', 'avg'))
+
+    df_data_group_by = df_data.groupby('Group')['Avg Velocity'].mean()
+
+
+    df_data_group_by = df_data_group_by.reset_index()
+
+
+    df_data_group_by.sort_values(by=['Avg Velocity'], inplace=True, ascending=False)
+
+    st.write(df_data_group_by)
 
     # Create a bar chart using pyplot
     fig, ax = plt.subplots()
-    ax.bar(df_data['Group'],df_data['Avg Velocity'])
+    ax.bar(df_data_group_by['Group'],df_data_group_by['Avg Velocity'])
 
     # Set chart title and axis labels
     ax.set_title('Grupo vs Velocidad Promedio historico')
