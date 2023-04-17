@@ -163,7 +163,7 @@ if reto == retos[3]:
     st.header(retos[3])
 
 
-        # Create two columns
+    # Create two columns
     col1, col2 = st.columns(2)
 
     # Add a date input to the first column
@@ -221,26 +221,36 @@ if reto == retos[4]:
 
     Year = st.selectbox("Seleccione un año", df_data["Year"].unique())
 
-    df_data_show = df_data[df_data["Year"] == Year]
+    df_data_year = df_data[df_data["Year"] == Year]
 
-    df_pivot = pd.pivot_table(
-        df_data_show,
-        values="Cant",
-        index="WEEKDAY",
-        columns="Cargo",
-        aggfunc='count')
+    state = st.selectbox("Seleccione un Estado", df_data_year["State"].unique())
 
-    # Plot a bar chart using the DF
-    ax = df_pivot.plot(kind="bar")
-    # Get a Matplotlib figure from the axes object for formatting purposes
-    fig = ax.get_figure()
-    # Change the plot dimensions (width, height)
-    fig.set_size_inches(7, 6)
-    # Change the axes labels
-    ax.set_xlabel("Weekday")
-    ax.set_ylabel("Amount")
+    try:
 
-    st.pyplot(fig)
+        df_data_show = df_data[(df_data["Year"] == Year) & (df_data["State"] == state)]
+
+        df_pivot = pd.pivot_table(
+            df_data_show,
+            values="Cant",
+            index="WEEKDAY",
+            columns="Cargo",
+            aggfunc='count')
+
+        # Plot a bar chart using the DF
+        ax = df_pivot.plot(kind="bar")
+        # Get a Matplotlib figure from the axes object for formatting purposes
+        fig = ax.get_figure()
+        # Change the plot dimensions (width, height)
+        fig.set_size_inches(7, 6)
+        # Change the axes labels
+        ax.set_xlabel("Weekday")
+        ax.set_ylabel("Amount")
+
+        st.pyplot(fig)
+
+    except:
+        st.error("No hay datos para el año y estado seleccionado")
+
 
 
 
@@ -250,8 +260,6 @@ if reto == retos[5]:
     df_data = get_data_from_mongo(db.Agrupacion6)
     df_data.drop(['_id'], axis=1, inplace=True)
 
-
-    # df_data_group_by = df_data.groupby("Group").agg(Avg_Velocity=('Avg Velocity', 'avg'))
 
     df_data_group_by = df_data.groupby('Group')['Avg Velocity'].mean()
 
