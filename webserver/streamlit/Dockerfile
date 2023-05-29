@@ -8,11 +8,14 @@ RUN mkdir /streamlit
 
 WORKDIR /streamlit
 
-COPY . /streamlit/
+COPY requirements.txt /frontend-streamlit/
+
 
 RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
+
+COPY . /streamlit/
 
 ENV ON_DOCKER Yes
 
