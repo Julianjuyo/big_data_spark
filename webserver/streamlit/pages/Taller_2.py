@@ -15,6 +15,9 @@ import datetime as dt
 
 import altair as alt
 
+
+import seaborn as sns
+
 # import us as us_states
 # import plotly.express as px
 
@@ -33,6 +36,9 @@ db = client['grupo_02']
 collection_data_taller_2 = db['data_taller_2']
 
 collection_data_taller_2_agrupada = db['data_taller_2_agrupada']
+
+data_taller_2_normalizacion100 = db['data_taller_2_normalizacion100']
+
 
 
 
@@ -61,11 +67,11 @@ def get_data_from_mongo(collection,limit):
 
     return pd.DataFrame(data)
 
-def readcsv(path,limit):
+def readcsv(path,limit,sep):
     if limit == 0:
-        df = pd.read_csv(path)
+        df = pd.read_csv(path,sep=sep)
     else:
-        df = pd.read_csv(path, nrows=limit)
+        df = pd.read_csv(path, nrows=limit,sep=sep)
     return df
 
 
@@ -91,7 +97,7 @@ if reto == retos[0]:
         st.write("Selected date range:", start_date, "to", end_date)
     
         df_data_agrupada = get_data_from_mongo(collection_data_taller_2_agrupada,0)
-        # df_data_agrupada = readcsv("agrupada.csv",0)
+        # df_data_agrupada = readcsv("agrupada.csv",0,",")
 
         
         df_data_filter = df_data_agrupada.loc[(df_data_agrupada.date>= start_date)& (df_data_agrupada.date <= end_date)]
@@ -144,24 +150,87 @@ if reto == retos[0]:
         st.pyplot(fig)
 
 
-        st.header("Cantidad de tweets verificados por día")        
-        # Plot the pie chart
-        fig, ax = plt.subplots(figsize=(4, 4))
-        df_data_filter['user_verified'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=90, ax=ax)
-        ax.set_title('User Verification')
-        ax.set_ylabel('')
-
-        # Display the plot in Streamlit
-        st.pyplot(fig)
-
-
 
 
 if reto == retos[1]:
 
     st.header(retos[1])
 
+
+    # # Create two columns
+    col1, col2 = st.columns(2)
+
+    # # Add a date input to the first column
+    start_date = str(col1.date_input("Start date", min_value=dt.date(2020, 1, 1), max_value=dt.date(2023, 12, 31)))
+
+    # # Add a date input to the second column
+    end_date =   str(col2.date_input("End date", min_value=dt.date(2020, 1, 1), max_value=dt.date(2023, 12, 31)))
+
+
+    if start_date > end_date:
+        st.error("Error: End date must fall after start date.")
+    else:
+
+
+        df_data_sentimientos = get_data_from_mongo(data_taller_2_normalizacion100,0)
+
+        # df_data_sentimientos = readcsv("data2.csv",0,";")
+
+        df_data_filter = df_data_agrupada.loc[(df_data_agrupada.date>= start_date)& (df_data_agrupada.date <= end_date)]
+
+
+
+        st.header("Porcentaje de tweets por sentimiento")        
+        # Plot the pie chart
+
+        fig, ax = plt.subplots(figsize=(4, 4))
+        df_data_filter['sentiment_label'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=90, ax=ax)
+        ax.set_title('sentiment_label')
+        ax.set_ylabel('')
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
+
+
+        st.header("Porcentaje de tweets por emociones")        
+
+        # Calculate the percentage values
+        value_counts = df_data_filter['emotion_label'].value_counts()
+        total_count = value_counts.sum()
+        percentages = (value_counts / total_count) * 100
+
+        # Plot the bar chart with percentages
+        plt.figure(figsize=(8, 6))
+        ax = df_data_filter['emotion_label'].value_counts().plot(kind='bar')
+        ax.set_title('emotion_label')
+        ax.set_xlabel('Emotion Label')
+        ax.set_ylabel('Count')
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
+
+        # Display the percentage values on top of each bar
+        for i, v in enumerate(value_counts):
+            ax.text(i, v + 1, f"{percentages[i]:.1f}%", ha='center', va='bottom')
+
+        
+        st.header("emociones vs sentimientos")
+
+
+        # Create the count plot
+        fig, ax = plt.subplots()
+        sns.countplot(x='sentiment_label', hue='emotion_label', data=df_data_filter, ax=ax)
+
+        # Set plot title and labels
+        ax.set_title('Count Plot')
+        ax.set_xlabel('Variable 1')
+        ax.set_ylabel('Count')
+
+        # Render the plot in Streamlit
+        st.pyplot(fig)
+
+
     # Twites en cada dia ente las fechas
+
+
     # sentimeintos y emociones
     # Grafica que relacione sentimientos y polaridad
     # data de este año
@@ -177,5 +246,43 @@ if reto == retos[1]:
 if reto == retos[2]:
 
     st.header(retos[2])
+
+    # Create two columns
+    col1, col2 = st.columns(2)
+
+    # # Add a date input to the first column
+    start_date = str(col1.date_input("Start date", min_value=dt.date(2020, 1, 1), max_value=dt.date(2023, 12, 31)))
+
+    # # Add a date input to the second column
+    end_date =   str(col2.date_input("End date", min_value=dt.date(2020, 1, 1), max_value=dt.date(2023, 12, 31)))
+
+
+    if start_date > end_date:
+        st.error("Error: End date must fall after start date.")
+    else:
+
+
+        df_data_sentimientos = get_data_from_mongo(data_taller_2_normalizacion100,0)
+
+        # df_data_sentimientos = readcsv("data2.csv",0,";")
+
+        df_data_filter = df_data_agrupada.loc[(df_data_agrupada.date>= start_date)& (df_data_agrupada.date <= end_date)]
+
+
+        # Get the symbol of the asset
+        tweet = st.selectbox("Select a Tweet", df_data_filter["preprocessed_text_2"].unique())
+
+
+        selected_tweet_id = df_data_filter.loc[df_data_filter['preprocessed_text_2']
+                                            == tweet, "_id"].iloc[0]
+
+        # Assuming your DataFrame is named 'df'
+
+        desired_row = df_data_filter[df_data_filter['_id'] == selected_tweet_id]
+
+        st.write(desired_row)
+
+
+
 
 
