@@ -32,6 +32,7 @@ client = pymongo.MongoClient(CONNECTION_STRING)
 db = client['grupo_02']
 collection_data_taller_2 = db['data_taller_2']
 
+collection_data_taller_2_agrupada = db['data_taller_2_agrupada']
 
 
 
@@ -56,7 +57,7 @@ def get_data_from_mongo(collection,limit):
         data = collection.find()
     else:
         data = collection.find().limit(limit)
-    data = collection.find()
+
     return pd.DataFrame(data)
 
 
@@ -68,18 +69,19 @@ if reto == retos[0]:
 
 
     # # Create two columns
-    # col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     # # Add a date input to the first column
-    # start_date = str(col1.date_input("Start date", min_value=dt.date(2017, 1, 1), max_value=dt.date(2023, 12, 31)))
+    start_date = str(col1.date_input("Start date", min_value=dt.date(2017, 1, 1), max_value=dt.date(2023, 12, 31)))
 
     # # Add a date input to the second column
-    # end_date =   str(col2.date_input("End date", min_value=dt.date(2017, 1, 1), max_value=dt.date(2023, 12, 31)))
+    end_date =   str(col2.date_input("End date", min_value=dt.date(2017, 1, 1), max_value=dt.date(2023, 12, 31)))
 
 
-    df = get_data_from_mongo(collection_data_taller_2,5)
+    df = get_data_from_mongo(collection_data_taller_2_agrupada,0)
 
     st.write(df)
+
 
 if reto == retos[1]:
 
