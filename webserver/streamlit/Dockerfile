@@ -8,8 +8,7 @@ RUN mkdir /streamlit
 
 WORKDIR /streamlit
 
-COPY requirements.txt /frontend-streamlit/
-
+COPY requirements.txt /streamlit/
 
 RUN pip install --upgrade pip
 
