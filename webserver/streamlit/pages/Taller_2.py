@@ -30,7 +30,7 @@ sys.path.append(BASE_DIR)
 
 # parametros para conectar a mongo
 mongo = os.environ["MONGO"]
-CONNECTION_STRING = "mongodb://172.24.99.25:27018"
+
 client = pymongo.MongoClient(CONNECTION_STRING)
 db = client['grupo_02']
 collection_data_taller_2 = db['data_taller_2']
@@ -176,7 +176,7 @@ if reto == retos[1]:
 
         # df_data_sentimientos = readcsv("data2.csv",0,";")
 
-        df_data_filter = df_data_agrupada.loc[(df_data_agrupada.date>= start_date)& (df_data_agrupada.date <= end_date)]
+        df_data_filter = df_data_sentimientos.loc[(df_data_sentimientos.date>= start_date)& (df_data_sentimientos.date <= end_date)]
 
 
 
@@ -266,7 +266,7 @@ if reto == retos[2]:
 
         # df_data_sentimientos = readcsv("data2.csv",0,";")
 
-        df_data_filter = df_data_agrupada.loc[(df_data_agrupada.date>= start_date)& (df_data_agrupada.date <= end_date)]
+        df_data_filter = df_data_sentimientos.loc[(df_data_sentimientos.date>= start_date)& (df_data_sentimientos.date <= end_date)]
 
 
         # Get the symbol of the asset
